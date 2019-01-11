@@ -1,0 +1,462 @@
+/** 
+ * ==========================
+ *   Would You Rather?
+ *   React/Redux App
+ *   Adam Love Dec 2018
+ * ========================== 
+ */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,
+      "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #00508A;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+*, ::after, ::before {
+    -webkit-box-sizing: inherit;
+    box-sizing: border-box;
+}
+
+a, a:active, a:hover, a:link, a:visited {
+  text-decoration: none;
+  color: #00508A;
+}
+.flex-right {
+  margin-left: auto;; 
+}
+
+.login-message {
+  width: 100%;
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1.3rem;
+}
+
+.page-title {
+  font-weight: 300;
+  word-spacing: .1rem;
+  letter-spacing: .1rem;
+  font-size: 2rem;
+  margin: 3rem 0;
+}
+.question-header {
+  display: flex;
+  margin-top: -.3rem;
+  margin-bottom: .7rem;
+  color: #699BBF;
+}
+.question.vote [class^="option-"] {
+  border-radius: 12px;
+  cursor: pointer;
+}
+.question.vote [class^="option-"]:hover {
+  background: #fde7f0;
+}
+.question.vote [class^="option-"]:hover .chosen p:before {
+  content: '✓';
+  color: #00508A;
+}
+.question-header .avatar {
+  margin-left: 0;
+}
+.question-header span {
+  padding: 8px 0;
+}
+.question-title {
+  margin-bottom: .6rem;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+.chosen {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  margin-right: .6rem;
+  border-radius: 50%;
+  border: 1px solid #00508A;
+  background-color: transparent;
+}
+.chosen.yes {
+  border: 1px solid #00508A;
+  background-color: #00508A;
+}
+.chosen.yes p:before {
+  content: '✓';
+}
+.chosen.none {
+  border: none;
+  background-color: transparent;
+}
+.chosen.none p:before {
+  content: '•';
+  margin-left: .3rem;
+  color: #00508A;
+}
+.chosen p {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  position: absolute;
+  top: -3px;
+  left: 3px;
+}
+.option-one, .option-two {
+  display: flex;
+  margin-bottom: .3rem;
+  text-transform: capitalize;
+}
+
+a.see-details {
+  display: flex; 
+}
+.see-details {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+  padding: .9rem 1rem;
+  color: #00508E;
+  background: #efcddb;
+  border: none;
+  border-radius: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+}
+.see-details:hover {
+  color: #fff;
+  background: #d4a8ba;
+}
+.see-details.vote {
+  border-top: 1px solid #699BB9;
+  cursor: default;
+  background: transparent;
+}
+.see-details.vote:hover {
+  color: inherit;
+  background: inherit;
+}
+.question:hover {
+  -webkit-box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+  -moz-box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+  box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+}
+.see-details p {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+}
+.see-details > img {
+    height: 35px;
+}
+
+/* ==== View Question ==== */
+.view-tally {
+  display: flex;
+  margin: 1.2rem 0 .5rem 0;
+}
+.view-percent {
+  display: inline-block;
+  flex-grow: 1;
+  padding: 0;
+  margn: 0;
+  text-align: center;
+  color: #00508E;
+  font-size: 1rem;
+  border: 1px #00508E solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+.view-percent > span {
+  display: inline-block;
+}
+.view-count {
+  margin-left: 1rem;
+}
+.view-percent .yes {
+  color: #fff;
+  background: #00508E;
+}
+
+.container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.content {
+  padding: 0 .8rem;
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.col-md-6 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%; 
+  padding-right: 15px;
+  padding-left: 15px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* ==== Top Nav === */
+.nav-box {
+  width: 100%;
+  background: #074573; 
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+}
+.nav-title {
+  margin: 0 1.5rem 0 .5rem;
+  padding-bottom: 3px;
+  color: #61BDFF;
+  font-size: 1.5rem;
+}
+.nav a, .nav button, .nav p {
+  color: #efcddb;
+  font-size: .9rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.nav > ul {
+  display: inline-block; 
+}
+.nav > ul > li {
+  display: inline-block;
+  padding: 1.2rem .8rem;
+  font-size: .9rem;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  color: #fff;
+}
+.nav-right p {
+  text-align: right;
+  font-size: .9rem;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  margin: 0 1rem;
+}
+.avatar img {
+  width: inherit;
+  height: inherit;
+  border-radius: 50%; 
+}
+
+.home-list .question {
+  width: 100%;
+  max-width: 600px;
+  margin: auto auto 1rem auto;;
+  border: 1px solid #699BB9;
+  border-radius: 2px;
+  box-shadow: 10px 10px 30px 0px rgba(159,179,194,0.1)
+}
+.home-list .question-inner {
+  padding: 1rem;
+}
+
+/* ==== Tab List ==== */
+.tab-list {
+  display: flex;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  justify-content: flex-start;
+  list-style-type: none;
+}
+.tab-list-item {
+  display: inline-block;
+  padding: .3rem 0;
+  margin: 0 1.6rem 0 0;
+  color: #0091EA;
+  background: #fff;
+  border-bottom: 4px transparent solid;
+  cursor: pointer;
+}
+.tab-list-active {
+  color: #00508A;
+  border-bottom: 4px #00508A solid;
+}
+
+/* ==== User Login ==== */
+.user-login {
+  display: flex;
+  justify-content: space-between;
+  height: 214px;
+}
+.user-login li {
+  height: 214px;
+  transition: transform .2s;
+  border-radius: 12px;
+  cursor: pointer; 
+}
+.user-login li:hover {
+-webkit-box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+-moz-box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+box-shadow: 0px 0px 19px -2px rgba(0, 80, 138,0.2);
+  transform: scale(1.15);
+}
+.user-login img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #fff;
+  margin: 1rem; 
+}
+.user-login p {
+  text-align: center;
+}
+
+
+/* ==== LEADERBOARD ==== */
+.leaderboard {
+  margin: 0;
+}
+.table-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px #f5f5f5 solid;
+}
+.table-row.header [class^="table-col-"] {
+  border-bottom: 1px solid #699BB9; 
+}
+[class^="table-col-"] {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  padding: 0.8em 1.2em;
+  text-align: center;
+  overflow: hidden;
+  list-style: none;
+  box-sizing: border-box;
+}
+.table-col-1  {
+  width: 10%;
+}
+.table-col-2  {
+  width: 20%;
+}
+.table-col-5  {
+  width: 50%;
+}
+.flex-row {
+  justify-content: left;
+}
+.no-left-margin {
+  margin-left: 0; 
+}
+.add-option {
+  width: 100%;
+  padding: .5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #bdcad2;
+  border-radius: 2px;
+}
+.add-option.two {
+  margin-bottom: 0; 
+}
+
+/* ==== NOT FOUND PAGE ==== */
+.not-found {
+  text-align: center;
+}
+.not-found img {
+  width: 200px;
+  height: 200px;
+}
+/* ==== LINK BUTTON ==== */
+.link-btn {
+  display: inline-block;
+  padding: 0.4rem .8rem;
+  margin: .2rem;
+  border: 1px #699BB9 solid;
+  border-radius: 6px;
+  transition: all .2s;
+}
+.link-btn:hover {
+  background: #efcddb;
+}
+.no-questions {
+  text-align: center;
+  display: inline-block;
+  margin: auto; 
+}
+
+/* ==== MEDIA QUERIES ==== */
+@media (min-width: 576px) {
+  .container {
+    width: 540px;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 720px;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 960px;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
